@@ -1,0 +1,19 @@
+<div class="game-container">
+  <h1>Memory Game</h1>
+  <div *ngIf="isGameOver">
+    <p>Game Over! Your score: {{ score }}</p>
+    <button (click)="startGame()">Restart</button>
+  </div>
+
+  <div *ngIf="!isGameOver">
+    <p>Current Score: {{ score }}</p>
+    <div class="buttons">
+      <button
+        *ngFor="let color of sequence"
+        [style.background]="color"
+        (click)="handleInput(color)">
+        {{ color }}
+      </button>
+    </div>
+  </div>
+</div>
