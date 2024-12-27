@@ -1,14 +1,78 @@
 .game-container {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #74ebd5, #acb6e5);
+  font-family: 'Arial', sans-serif;
+  color: #333;
 }
 
-.buttons button {
-  width: 100px;
-  height: 100px;
+.color-block {
+  display: inline-block;
+  width: 60px;
+  height: 60px;
   margin: 10px;
-  border: none;
-  color: white;
-  font-size: 16px;
+  border: 2px solid white;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.color-block:hover {
+  transform: scale(1.1);
   cursor: pointer;
+}
+
+.color-buttons button {
+  width: 120px;
+  height: 50px;
+  margin: 10px;
+  border-radius: 25px;
+  background-color: #fff;
+  color: #333;
+  font-size: 16px;
+  font-weight: bold;
+  border: 2px solid #ccc;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.color-buttons button:hover {
+  background-color: #74ebd5;
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.timer {
+  font-size: 24px;
+  color: #444;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  background-color: #4caf50;
+  border: none;
   border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.score {
+  font-size: 24px;
+  color: #555;
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 10px 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }

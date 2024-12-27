@@ -1,31 +1,60 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
-  private colors: string[] = environment.gameSettings.colors;
+  public sequence: string[] = [];
+  public colors: string[] = ['red', 'blue', 'green', 'yellow', 'orange', 'violet', 'black', 'white'];
+  public currentScore = 0;
+  private usedColors: Set<string> = new Set();
 
-  generateSequence(): string[] {
-    return [this.getRandomColor()];
+  generateSequence(): void {
+    this.sequence = [];
+    this.currentScore = 0;
+    this.usedColors.clear();
+    this.addInitialSequence();
   }
 
-  generateNextStep(sequence: string[]): string[] {
-    return [...sequence, this.getRandomColor()];
+  addInitialSequence(): void {
+    // Select two random unique colors
+    const initialColor = this.getNextUniqueColor();
+    this.sequence = Array(1).fill(initialColor);
   }
 
-  isSequenceCorrect(userInputs: string[], sequence: string[]): boolean {
-    for (let i = 0; i < userInputs.length; i++) {
-      if (userInputs[i] !== sequence[i]) {
-        return false;
-      }
+  addColor(): void {
+    const nextColor = this.getNextUniqueColor();
+    this.sequence.push(nextColor);
+  }
+
+  getSequence(): string[] {
+    return [...this.sequence];
+  }
+
+  verifyResponse(userResponse: string[]): boolean {
+    return JSON.stringify(this.sequence) === JSON.stringify(userResponse);
+  }
+
+  resetGame(): void {
+    this.sequence = [];
+    this.currentScore = 0; // Reset score
+  }
+
+  incrementScore(): void {
+    this.currentScore++;
+  }
+
+  private getNextUniqueColor(): string {
+    const availableColors = this.colors.filter(color => !this.usedColors.has(color));
+    if (availableColors.length === 0) {
+      throw new Error('No more unique colors available');
     }
-    return true;
+    const randomColor = availableColors[Math.floor(Math.random() * availableColors.length)];
+    this.usedColors.add(randomColor);
+    return randomColor;
   }
 
-  private getRandomColor(): string {
-    const randomIndex = Math.floor(Math.random() * this.colors.length);
-    return this.colors[randomIndex];
+  get score(): number {
+    return this.currentScore;
   }
 }
