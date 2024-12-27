@@ -1,4 +1,3 @@
-
 import { CommonModule } from '@angular/common';
 import { ScoreComponent } from '../score/score.component';
 import { Component } from '@angular/core';
@@ -20,6 +19,7 @@ export class GameComponent {
   timer = 10;
   timerInterval: any;
   buttonOrder: string[] = [];
+  notification: string | null = null;
 
   constructor(public gameService: GameService) {}
 
@@ -43,7 +43,7 @@ export class GameComponent {
     setTimeout(() => {
       this.showSequence = false;
       this.startTimer();
-    }, 15000);
+    }, 8000); // Reduced memory time
   }
 
   addUserResponse(color: string): void {
@@ -59,11 +59,11 @@ export class GameComponent {
     const isCorrect = this.gameService.verifyResponse(this.userResponse);
 
     if (isCorrect) {
-      alert('Correct! Proceeding to the next level.');
+      this.showNotification('Correct! Proceeding to the next level.');
       this.score++;
       this.nextLevel();
     } else {
-      alert('Incorrect! Game over.');
+      this.showNotification('Incorrect! Game over.');
       this.endGame();
     }
   }
@@ -74,7 +74,7 @@ export class GameComponent {
         this.timer--;
       } else {
         clearInterval(this.timerInterval);
-        alert('Time’s up! Game over.');
+        this.showNotification('Time’s up! Game over.');
         this.endGame();
       }
     }, 1000);
@@ -83,6 +83,13 @@ export class GameComponent {
   endGame(): void {
     clearInterval(this.timerInterval);
     this.isGameActive = false;
+  }
+
+  showNotification(message: string): void {
+    this.notification = message;
+    setTimeout(() => {
+      this.notification = null;
+    }, 3000);
   }
 
   shuffle(array: string[]): string[] {
